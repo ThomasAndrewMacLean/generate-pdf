@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Get PDF</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <img src="./school.jpeg" class="img-fluid hero-pic" alt="Responsive image">
+    <div class="container">
+        <h1 class="pt-5">PDF Document</h1>
+        <p>
+            semiotics paleo Schlitz letterpress Marfa deep v tousled locavore selfies blog pop-up beard Bushwick
+            American Apparel wayfarers McSweeney's mumblecore food truck direct trade mixtape disrupt salvia PBR four
+            loko Neutra cray irony Banksy Shoreditch Intelligentsia raw denim Cosby sweater jean shorts freegan yr
+            street art stumptown cliche Austin butcher try-hard authentic Tonx ugh bicycle rights fingerstache lo-fi
+            leggings
+        </p>
+        <form class="mb-5">
+            <div class="form-group">
+                <label for="inputWebsite">Website</label>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">https://</span>
+                    </div>
+                    <input type="text" class="form-control" id="inputWebsite" placeholder="Enter website"
+                        aria-describedby="websiteHelp">
+                </div>
+                <small id="websiteHelp" class="form-text text-muted">Enter site to pdf-ify.</small>
+            </div>
+
+
+            <button id="getPdfBtn" type="button" class="btn btn-primary">Get PDF</button>
+        </form>
+    </div>
+    <script>
+        const button = document.getElementById("getPdfBtn");
+
+        let busy = false;
+        let fileName = "filename.pdf";
+
+        button.addEventListener("click", () => {
+            const site = 'https://' + (document.getElementById("inputWebsite").value ||
+                'thomasandrewmaclean.github.io/')
+
+            if (busy) return;
+
+            button.disabled = true
+            busy = true;
+            fetch(document.URL + "pdf", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        site
+                    })
+                }).then(response => {
+                    for (var pair of response.headers.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                        if (pair[0] === 'content-disposition') {
+                            const parts = pair[1].split('"');
+                            if (parts.length) {
+                                fileName = parts[1];
+                            }
+                        }
+                    }
+                    return response.blob()
+                })
+                .then(blob => {
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+
+                    button.disabled = false
+
+                    busy = false
+                });
+        })
+    </script>
+    <style>
+        .hero-pic {
+            margin-top: -33%;
+            width: 100vw;
+            filter: hue-rotate(45deg) grayscale(10%);
+        }
+    </style>
+</body>
+
+</html>
