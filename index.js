@@ -32,7 +32,7 @@ app.get('/', (req, res) =>
 );
 
 const createPdf = async site => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     const options = {
         //path: 'pdf/web.pdf',
