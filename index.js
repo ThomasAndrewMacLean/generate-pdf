@@ -45,8 +45,8 @@ const createPdf = async site => {
     await page.goto(site, {
         waitUntil: 'networkidle0'
     });
-    await page.waitFor('.CompareItem-sc-19g055x-0')
-
+    //await page.waitFor('.CompareItem-sc-19g055x-0')
+    await page.waitFor(1000);
     const pdf = await page.pdf(options);
     await browser.close();
     return pdf;
