@@ -43,7 +43,7 @@ const createPdf = async site => {
     };
 
     await page.goto(site, {
-        waitUntil: 'networkidle2'
+        waitUntil: 'networkidle0'
     });
 
     const pdf = await page.pdf(options);
