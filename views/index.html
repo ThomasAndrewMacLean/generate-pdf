@@ -48,14 +48,25 @@
 
 
             <button id="getPdfBtn" type="button" class="btn btn-primary">Get PDF</button>
+            <button id="shareBtn" type="button" class="btn btn-info">Share</button>
         </form>
     </div>
     <script>
         const button = document.getElementById("getPdfBtn");
+        const shareBtn = document.getElementById("shareBtn");
 
         let busy = false;
         let fileName = "filename.pdf";
 
+        shareBtn.addEventListener("click", () => {
+           if ('share' in navigator) {
+        navigator.share({
+        title: 'Click-bait title #6314',
+        url:    'https://pdf-generator-poc.herokuapp.com'
+             });
+           }
+        })
+        
         button.addEventListener("click", () => {
             const site = 'https://' + (document.getElementById("inputWebsite").value ||
                 'thomasandrewmaclean.github.io/')
