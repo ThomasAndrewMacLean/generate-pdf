@@ -45,6 +45,7 @@ const createPdf = async site => {
     await page.goto(site, {
         waitUntil: 'networkidle0'
     });
+    await page.addStyleTag(        {'content': '@page {size: auto}'}      );
     //await page.waitFor('.CompareItem-sc-19g055x-0')
     const pdf = await page.pdf(options);
     await browser.close();
