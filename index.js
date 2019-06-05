@@ -49,7 +49,7 @@ const createPdf = async site => {
     };
 
     await page.goto(site, {
-        waitUntil: 'networkidle2'
+        waitUntil: 'networkidle0'
     });
 //    await page.addStyleTag(        {'content': '@page {size: auto}'}      );
     //await page.waitFor('.CompareItem-sc-19g055x-0')
