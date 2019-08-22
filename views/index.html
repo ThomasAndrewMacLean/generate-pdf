@@ -32,7 +32,7 @@
             street art stumptown cliche Austin butcher try-hard authentic Tonx ugh bicycle rights fingerstache lo-fi
             leggings.
         </p>
-        <form class="mb-5">
+        <form id="form" class="mb-5">
             <div class="form-group">
                 <label for="inputWebsite">Website</label>
 
@@ -47,12 +47,12 @@
             </div>
 
 
-            <button id="getPdfBtn" type="button" class="btn btn-primary">Get PDF</button>
+            <button id="getPdfBtn" type="submit" class="btn btn-primary">Get PDF</button>
             <button id="shareBtn" type="button" class="btn btn-info" hidden>Share</button>
         </form>
     </div>
     <script>
-        const button = document.getElementById("getPdfBtn");
+        const form = document.getElementById("form");
         const shareBtn = document.getElementById("shareBtn");
 
         if ('share' in navigator) { 
@@ -74,7 +74,8 @@
                }
         })
         
-        button.addEventListener("click", () => {
+        button.addEventListener("submit", (e) => {
+            e.preventDefault();
             const site = 'https://' + (document.getElementById("inputWebsite").value ||
                 'thomasandrewmaclean.github.io/')
 
@@ -82,7 +83,7 @@
 
             button.disabled = true
             busy = true;
-            fetch(document.URL + "pdf", {
+            fetch("https://" +window.location.host + "/pdf", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
